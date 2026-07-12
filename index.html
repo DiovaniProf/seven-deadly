@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="description"
+        content="Jogo da Memória — The Seven Deadly Sins"
+    >
+
+    <meta
+        name="theme-color"
+        content="#160b21"
+    >
+
+    <title>The Seven Deadly Sins — Jogo da Memória</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-locked">
+
+    <main class="app">
+
+        <!-- ==================================================
+             TELA 1 — APRESENTAÇÃO
+        =================================================== -->
+        <section
+            id="initialScreen"
+            class="screen initial-screen"
+            aria-labelledby="initialTitle"
+        >
+
+            <div class="initial-panel">
+
+                <div class="initial-text">
+
+                    <p class="eyebrow">
+                        DESAFIO DE MEMÓRIA
+                    </p>
+
+                    <h1 id="initialTitle">
+                        THE SEVEN<br>
+                        <span>DEADLY SINS</span>
+                    </h1>
+
+                    <div class="intro-box">
+
+                        <p>
+                            Entre em um universo de símbolos, escolhas e conflitos.
+                            Encontre as imagens correspondentes, complete os dez pares
+                            e avance por uma experiência inspirada nos sete pecados
+                            capitais, em suas consequências e na possibilidade de
+                            transformação.
+                        </p>
+
+                    </div>
+
+                    <div class="game-summary">
+
+                        <div>
+                            <strong>20</strong>
+                            <span>cartas</span>
+                        </div>
+
+                        <div>
+                            <strong>10</strong>
+                            <span>pares</span>
+                        </div>
+
+                        <div>
+                            <strong>1</strong>
+                            <span>desafio</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="initial-visual">
+
+                    <div
+                        class="preview-stack"
+                        aria-label="Prévia das imagens do jogo"
+                    >
+
+                        <figure class="preview-card preview-left">
+
+                            <img
+                                id="previewImage1"
+                                src=""
+                                alt=""
+                                width="960"
+                                height="540"
+                            >
+
+                        </figure>
+
+
+                        <figure class="preview-card preview-center">
+
+                            <img
+                                id="previewImage2"
+                                src=""
+                                alt=""
+                                width="960"
+                                height="540"
+                            >
+
+                        </figure>
+
+
+                        <figure class="preview-card preview-right">
+
+                            <img
+                                id="previewImage3"
+                                src=""
+                                alt=""
+                                width="960"
+                                height="540"
+                            >
+
+                        </figure>
+
+                    </div>
+
+
+                    <div
+                        id="loadingPanel"
+                        class="loading-panel"
+                        aria-live="polite"
+                    >
+
+                        <div class="loading-header">
+
+                            <span id="loadingText">
+                                Preparando as imagens...
+                            </span>
+
+                            <strong id="loadingPercentage">
+                                0%
+                            </strong>
+
+                        </div>
+
+
+                        <div
+                            id="loadingTrack"
+                            class="loading-track"
+                            role="progressbar"
+                            aria-label="Carregamento das imagens"
+                            aria-valuemin="0"
+                            aria-valuemax="21"
+                            aria-valuenow="0"
+                        >
+
+                            <span id="loadingBar"></span>
+
+                        </div>
+
+
+                        <p id="loadingCounter">
+                            0 de 21 recursos preparados
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="fileInformation"
+                        class="file-information"
+                    >
+
+                        <span aria-hidden="true">
+                            ◆
+                        </span>
+
+                        <p>
+                            Procurando
+                            <strong>img01.jpg</strong>
+                            até
+                            <strong>img20.jpg</strong>
+                            e
+                            <strong>capa.jpg</strong>.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="startButton"
+                        class="primary-button"
+                        type="button"
+                        hidden
+                        disabled
+                    >
+                        INICIAR JOGO
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TELA 2 — JOGO
+        =================================================== -->
+        <section
+            id="gameScreen"
+            class="screen game-screen"
+            aria-labelledby="gameTitle"
+            aria-hidden="true"
+            hidden
+        >
+
+            <header class="game-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ENCONTRE OS DEZ PARES
+                    </p>
+
+                    <h2 id="gameTitle">
+                        THE SEVEN DEADLY SINS
+                    </h2>
+
+                </div>
+
+
+                <div class="header-buttons">
+
+                    <button
+                        id="restartButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        ↻ Reiniciar
+                    </button>
+
+
+                    <button
+                        id="homeButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        ⌂ Tela inicial
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <section
+                class="status-grid"
+                aria-label="Informações da partida"
+            >
+
+                <article class="status-card">
+
+                    <span>Jogadas</span>
+
+                    <strong id="movesCounter">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="status-card">
+
+                    <span>Tempo</span>
+
+                    <strong id="timer">
+                        00:00
+                    </strong>
+
+                </article>
+
+
+                <article class="status-card">
+
+                    <span>Pares</span>
+
+                    <strong>
+                        <span id="pairsCounter">0</span>/10
+                    </strong>
+
+                </article>
+
+
+                <article class="status-card progress-card">
+
+                    <span>Progresso</span>
+
+                    <div
+                        id="pairsProgress"
+                        class="progress-track"
+                        role="progressbar"
+                        aria-label="Pares encontrados"
+                        aria-valuemin="0"
+                        aria-valuemax="10"
+                        aria-valuenow="0"
+                    >
+
+                        <div
+                            id="pairsProgressBar"
+                            class="progress-bar"
+                        ></div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <p
+                id="gameInstruction"
+                class="game-instruction"
+                aria-live="polite"
+            >
+                Selecione duas cartas para encontrar uma combinação.
+            </p>
+
+
+            <section
+                id="memoryGrid"
+                class="memory-grid"
+                aria-label="Tabuleiro do jogo da memória"
+            >
+                <!-- Cartas produzidas pelo JavaScript -->
+            </section>
+
+
+            <section
+                id="completionPanel"
+                class="completion-panel"
+                hidden
+            >
+
+                <div>
+
+                    <p class="eyebrow">
+                        DESAFIO CONCLUÍDO
+                    </p>
+
+                    <h3>
+                        Todos os pares foram encontrados.
+                    </h3>
+
+                    <p>
+                        Acesse a tela de significados para conhecer
+                        os conceitos representados no jogo.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="accessLoreButton"
+                    class="gold-button"
+                    type="button"
+                >
+                    ACESSAR SIGNIFICADOS
+                </button>
+
+            </section>
+
+        </section>
+
+
+        <!-- ==================================================
+             TELA 3 — SIGNIFICADOS
+        =================================================== -->
+        <section
+            id="loreScreen"
+            class="screen lore-screen"
+            aria-labelledby="loreTitle"
+            aria-hidden="true"
+            hidden
+        >
+
+            <header class="lore-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        SIGNIFICADOS
+                    </p>
+
+                    <h2 id="loreTitle">
+                        ESCOLHAS, CONFLITOS E TRANSFORMAÇÕES
+                    </h2>
+
+                    <p class="lore-introduction">
+                        Cada dupla de imagens representa um conceito
+                        presente na narrativa visual do jogo.
+                    </p>
+
+                </div>
+
+
+                <div class="header-buttons">
+
+                    <button
+                        id="backToGameButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        ← Voltar ao jogo
+                    </button>
+
+
+                    <button
+                        id="loreHomeButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        ⌂ Tela inicial
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <section
+                id="loreGrid"
+                class="lore-grid"
+                aria-label="Significados dos pares"
+            >
+                <!-- Conteúdo produzido pelo JavaScript -->
+            </section>
+
+
+            <footer class="lore-footer">
+
+                <button
+                    id="lorePlayAgainButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    JOGAR NOVAMENTE
+                </button>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================================================
+         RESULTADO FINAL
+    =================================================== -->
+    <div
+        id="resultModal"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="resultTitle"
+        aria-hidden="true"
+        hidden
+    >
+
+        <div
+            id="modalOverlay"
+            class="modal-overlay"
+        ></div>
+
+
+        <div class="modal-card">
+
+            <div
+                class="result-icon"
+                aria-hidden="true"
+            >
+                ◆
+            </div>
+
+
+            <p class="eyebrow">
+                DESAFIO CONCLUÍDO
+            </p>
+
+
+            <h2 id="resultTitle">
+                Vitória!
+            </h2>
+
+
+            <p class="result-text">
+                Você encontrou todos os pares de
+                The Seven Deadly Sins.
+            </p>
+
+
+            <div class="result-data">
+
+                <article>
+
+                    <span>Jogadas</span>
+
+                    <strong id="finalMoves">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article>
+
+                    <span>Tempo</span>
+
+                    <strong id="finalTime">
+                        00:00
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+            <div class="modal-buttons">
+
+                <button
+                    id="modalLoreButton"
+                    class="gold-button"
+                    type="button"
+                >
+                    ACESSAR SIGNIFICADOS
+                </button>
+
+
+                <button
+                    id="playAgainButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    JOGAR NOVAMENTE
+                </button>
+
+
+                <button
+                    id="modalHomeButton"
+                    class="secondary-button"
+                    type="button"
+                >
+                    VOLTAR À TELA INICIAL
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
